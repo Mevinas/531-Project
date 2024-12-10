@@ -53,8 +53,10 @@ R: Return\n"""
         # Show all checked out books
         elif userinput == '3':
             print("Showing All Books checked out:\n")
-            data=cursor.execute('''SELECT BOOKS.title, location, date(julianday(checkoutdate)), date(julianday(returndate)) FROM LIBRARY 
-                                INNER JOIN BOOKS on LIBRARY.title = BOOKS.id WHERE location != 'Library';''') 
+            data=cursor.execute('''SELECT BOOKS.title, STUDENTS.first, date(julianday(checkoutdate)), 
+                                date(julianday(returndate)) FROM LIBRARY 
+                                INNER JOIN BOOKS on LIBRARY.title = BOOKS.id
+                                INNER JOIN STUDENTS on LIBRARY.location = STUDENTS.id WHERE location != 'Library';''') 
             display(data)
 
         # Display Highest Rating Books
