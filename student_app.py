@@ -45,22 +45,26 @@ Q: Quit Application\n"""
             studentname = input("Enter Student name: ")
 
             # Student Name
-            data=cursor.execute(f'''SELECT first, last, groupname, id FROM STUDENTS WHERE first LIKE '{studentname}';''')
-            name = data.fetchone()
-            print(f"Hello {name[0]}")
+            try: 
+                data=cursor.execute(f'''SELECT first, last, groupname, id FROM STUDENTS WHERE first LIKE '{studentname}';''')
+                name = data.fetchone()
+                print(f"Hello {name[0]}")
 
-            
-            # Books from Student
-            data=cursor.execute(f'''SELECT BOOKS.title, location, date(julianday(checkoutdate)), date(julianday(returndate)) FROM LIBRARY 
-                                INNER JOIN BOOKS on LIBRARY.title = BOOKS.id WHERE location = '{name[3]}';''') 
-            print("You have checked out the following: ")
-            for row in data: 
-                print(f"Book title: {row[0]}, checked out on {row[2]}, with a return date of {row[3]}")
-            
-            # Student Group
-            data=cursor.execute(f'''SELECT GROUPS.name FROM GROUPS WHERE GROUPS.id = '{name[2]}';''')             
-            group = data.fetchone()
-            print(f"You belong to group {group[0]}")
+                
+                # Books from Student
+                data=cursor.execute(f'''SELECT BOOKS.title, location, date(julianday(checkoutdate)), date(julianday(returndate)) FROM LIBRARY 
+                                    INNER JOIN BOOKS on LIBRARY.title = BOOKS.id WHERE location = '{name[3]}';''') 
+                print("You have checked out the following: ")
+                for row in data: 
+                    print(f"Book title: {row[0]}, checked out on {row[2]}, with a return date of {row[3]}")
+                
+                # Student Group
+                data=cursor.execute(f'''SELECT GROUPS.name FROM GROUPS WHERE GROUPS.id = '{name[2]}';''')             
+                group = data.fetchone()
+                print(f"You belong to group {group[0]}")
+            except:
+                print("Student not found.")
+        
 
     # Show Groups
         elif userinput == '3':
@@ -73,7 +77,7 @@ Q: Quit Application\n"""
     # Show Students
         elif userinput == '4':
             data=cursor.execute(f'''SELECT first, GROUPS.name FROM STUDENTS 
-                                INNER JOIN GROUPS on GROUPS.id =''') 
+                                INNER JOIN GROUPS on GROUPS.id = STUDENTS.groupname''') 
             display(data)
         
         elif userinput == 'exit' or userinput == 'q':
