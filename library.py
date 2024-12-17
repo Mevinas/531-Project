@@ -42,7 +42,7 @@ R: Return\n"""
         if userinput == '1':
             print("Showing All Books:\n")
             data=cursor.execute('''SELECT BOOKS.title, location FROM LIBRARY 
-                                INNER JOIN BOOKS on LIBRARY.title = BOOKS.id;''') 
+                                INNER JOIN BOOKS on BOOKS.id = LIBRARY.title;''') 
             display(data)
         # Show books in Library
         elif userinput == '2':
